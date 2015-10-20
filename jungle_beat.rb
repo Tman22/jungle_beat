@@ -1,27 +1,43 @@
-require_relative 'node'
-require 'pry'
+require_relative 'node'  # => true
+require 'pry'            # => true
+
 class Junglebeat
-  attr_accessor :head
+  attr_reader :head  # => nil
 
 
-  def initialize(beats)
-    @head = Node.new(beats)
+  def initialize(beats = nil)
     @beats = beats.split
-  end
+  end                          # => :initialize
 
   def make_link_list
-    node = @head
-    @beats.each do |word|
-      node.next_node = Node.new(word)
-      node = node.next_node
+    if @beats
+      @beats.each do |word|
+        if @head
+          node = Node.new(word)
+          binding.pry
+          current.next_node = node
+          # puts current.node
+          current = node
+        else
+          @head = Node.new(word)
+          current = @head
+        end
+      end
+
+
+
+      # node.next_node = Node.new(word)
+      # node = node.next_node
+      # count +=1
     end
     # @head = @beats[0]
     # @head.next_node = @beats[1]
-  end
+  end    # => :make_link_list
 
   def head?
-    @head
-  end
+  @head
+
+  end  # => :head?
 
   def tail?
     current = @head
@@ -29,28 +45,25 @@ class Junglebeat
       current = current.next_node
     end
     current.node
-  end
-
-  def all
-      @head.node
-  end
-
-  def append(node)
-    @beats.join(node)
-
-    @head.join(node)
-
-  end
-
-  def prepend(node)
-    @head
-  end
-
-  def count
-      ask head to search ask node
-
-  end
-
-
-
-end
+  end                               # => :tail?
+#
+#   def all
+#       @head.node
+#   end
+#
+#   def append(node)
+#     @head
+#   end
+#
+#   def prepend(node)
+#
+#   end
+#
+#   def count
+#
+#
+#   end
+#
+#
+#
+end                                 # => :tail?
