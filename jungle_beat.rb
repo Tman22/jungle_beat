@@ -6,14 +6,14 @@ class Junglebeat
 
 
   def initialize(beats)
-    @beats = beats.split
     @count = 0
-  end                     # => :initialize
+    make_link_list(beats)
+  end                      # => :initialize
 
-  def make_link_list
-    if @beats
+  def make_link_list(beats)
+    if beats
       current = nil
-      @beats.each do |word|
+      beats.split.each do |word|
         if @head
           node = Node.new(word)
           current.next_node = node
@@ -25,16 +25,8 @@ class Junglebeat
           @count +=1
         end
       end
-
-
-
-      # node.next_node = Node.new(word)
-      # node = node.next_node
-      # count +=1
     end
-    # @head = @beats[0]
-    # @head.next_node = @beats[1]
-  end    # => :make_link_list
+  end                               # => :make_link_list
 
 
   def head_value
@@ -47,24 +39,40 @@ class Junglebeat
     until current.next_node == nil
       current = current.next_node
     end
-    current.node
+    current
   end                               # => :find_tail
 #
   def all
-    if @beats
-      @beats.join(" ")
+    current = @head
+    array = []
+    array << @head.node
+    until current.next_node == nil
+      current = current.next_node
+      array << current.node
     end
+    array.join(" ")
   end                               # => :all
-#
+
   def append(value)
-    node = Node.new(value)
-    find_tail.next_node = node
+    new_node = Node.new(value)
+    find_tail.next_node = new_node
   end                               # => :append
-#
-#   def prepend(node)
-#
-#   end
-#
+
+
+  def prepend(value)
+    
+    current = nil
+    value.split.each do |word|
+      current = Node.new(word)
+      current.next_node = current
+    end
+    # new_node = Node.new(value)
+    current.next_node = @head
+    @head = current
+
+
+  end  # => :prepend
+
 #   def count
 #
 #
@@ -72,4 +80,4 @@ class Junglebeat
 #
 #
 #
-end                                 # => :append
+end  # => :prepend
