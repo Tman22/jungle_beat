@@ -1,13 +1,14 @@
-require_relative 'node'  # => true
-require 'pry'            # => true
+require_relative 'node'
+require 'pry'
 
 class Junglebeat
-  attr_reader :head, :count  # => nil
+  attr_reader :head
 
+#inspect count of Node_Test
 
-  def initialize(beats)
+  def initialize(beats = nil)
     make_link_list(beats)
-  end                      # => :initialize
+  end
 
   def make_link_list(beats)
     if beats
@@ -23,32 +24,32 @@ class Junglebeat
         end
       end
     end
-  end                               # => :make_link_list
-
+  end
 
   def head_value
   @head.node
+  end
 
-  end  # => :head_value
-
-  def find_tail
+  def tail
     current = @head
     until current.next_node == nil
       current = current.next_node
     end
     current
-  end                               # => :find_tail
-#
+  end
+
   def all
-    current = @head
-    array = []
-    array << @head.node
-    until current.next_node == nil
-      current = current.next_node
-      array << current.node
+    if @head
+      current = @head
+      array = []
+      array << @head.node
+      until current.next_node == nil
+        current = current.next_node
+        array << current.node
+      end
+      array.join(" ")
     end
-    array.join(" ")
-  end                               # => :all
+  end
 
   def count
     current = @head
@@ -58,7 +59,7 @@ class Junglebeat
       current = current.next_node
     end
     count
-  end                               # => :count
+  end
 
   def append(value = nil)
     if value
@@ -76,12 +77,10 @@ class Junglebeat
           current = new_head
         end
       end
-      find_tail.next_node = current
+      tail.next_node = new_head
       counter
     end
-
-  end  # => :append
-
+  end
 
   def prepend(value =nil)
     if value
@@ -103,7 +102,7 @@ class Junglebeat
       @head = new_head
       counter
     end
-  end                                # => :prepend
+  end
 
   def include?(data)
     current = @head
@@ -114,9 +113,12 @@ class Junglebeat
       end
     end
     false
-  end                               # => :include?
+  end
 
   def pop(number = 1)
+    if count < number
+      "NO"
+    else
     current = @head
     array = []
     number.times do
@@ -128,17 +130,25 @@ class Junglebeat
               current = @head
         end
         array.reverse.join(" ")
-    end                                         # => :pop
-
+      end
+    end
 
   def insert(position, value)
-
-  end  # => :insert
+    current = @head
+    (position-1).times do
+      current = current.next_node
+    end
+      new_tail = current.next_node
+      value.split.each do |word|
+        current.next_node = Node.new(word)
+        current = current.next_node
+      end
+      current.next_node = new_tail
+  end
 
   def find(position, amount = 1)
     current = @head
     array = []
-    binding.pry
     if count < (position + amount)
       "NO"
     else
@@ -155,12 +165,27 @@ class Junglebeat
       end
     array.join(" ")
     end
-  end                # => :find
+  end
 
   def play
-    `say -r 500 -v Boing "#{self.all}"`
+    `say -r 250 -v Boing "#{self.all}"`
     count
-  end       # => :play
+  end
+
+  def valid_beats(beats)
+    new_array = []
+    array = w%(tee dee deep bop boop la na)
+    beats.each do |word|
+      # if word == tee || word == dee || word == deep || word || bop || boop || word == la || word ==n
+      array.each do |valid|
+          if word == valid
+          new_array << word
+        end
+      end
+    end
+  end
 
 
-end  # => :play
+
+
+end
